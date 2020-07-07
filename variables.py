@@ -4,11 +4,16 @@ from matplotlib import pyplot as plt
 # The span of x START->END ([ELENGTH,SLENGTH])
 # The difference in x when doing
 #   the gradient of the secant (DELTA)
-# The function that is done to x (fx)line 12
+# The function that is done to x (fx)line 22
 # The derivative should be changed to match 
-#   the derivative of function supplied (dx)line 28
+#   the derivative of function supplied (dx)line 38
 
-# You can also use the main function to 
+# You can also use the main function to repeat for
+#    different values of delta, span of x and an option of 
+#    0, prints nothing to the console
+#    1, prints the inaccuracies between secant and derivative
+#    2, prints the inaccuracies between secant and derivative 
+#       and logs them to a file
 
 LENGTH=[0,10]
 DELTA=0.1
@@ -83,4 +88,4 @@ def main(DELTA,LENGTH,ShowTheData=1):
   print('The inaccuracy in this example for delta:{} on avg is:{}'.format(DELTA,avgdiff))
   print('Data:\nFunction:{}\nDerivative:{}\nSecant:{}\nInacuracies:{}'.format(funct,derivativet,secantt,difft))
   
-main(0.1,[-10,10],1)
+main(0.1,[-10,10],0)
