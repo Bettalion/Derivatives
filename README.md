@@ -1,4 +1,4 @@
-A simple program that visualises how the derivative works.
+# 'A simple program that visualises how the derivative works'
 
 # Things that can be changed:
 
