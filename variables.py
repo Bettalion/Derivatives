@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 
 # # Things that can be changed:
-# The span of x (LENGTH)
+# The span of x START->END ([ELENGTH,SLENGTH])
 # The difference in x when doing
 #   the gradient of the secant (DELTA)
 # The function that is done to x (fx)line 12
@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 
 # You can also use the main function to 
 
-LENGTH=10
+LENGTH=[0,10]
 DELTA=0.1
 
 def function(x):
@@ -21,13 +21,14 @@ def truncation(value,SigFig=4):
  if len(value)>SigFig:
   value=value[:SigFig]
  return value
-def main(DELTA,LENGTH,ShowTheDataAtTheEnd=True):
+def main(DELTA,LENGTH,ShowTheData=1):
+ SLENGTH,ELENGTH=LENGTH 
  xaxis=[]
  func=[]
  derivative=[]
  secant=[]
 
- for x in range(LENGTH):
+ for x in range(SLENGTH,ELENGTH):
   fx=function(x)
   dx=2*x-1
   
@@ -51,7 +52,7 @@ def main(DELTA,LENGTH,ShowTheDataAtTheEnd=True):
  plt.plot(xaxis,secant)
 
  plt.show()
- if ShowTheDataAtTheEnd=True:
+ if ShowTheData>=1:
   
   avgdiff=truncation(sum/len(diff))
   
@@ -59,11 +60,27 @@ def main(DELTA,LENGTH,ShowTheDataAtTheEnd=True):
   derivativet=[]
   secantt=[]
   difft=[]
-  for data in [[func,funct],[derivative,derivativet],[secant,secantt],[diff,difft]]:
-   for value in data[0]:
-    value=truncation(value)
-    data[1].append(value)
+
+  if ShowTheData>1:
+    try:
+      file=open('DerivativeData.txt','a')
+    except:
+      file=open('DerivativeData.txt','w')
+    file.write('\n\n\nData:\nFor Delta:{} and Span of x:{}'.format(DELTA,LENGTH))
+    for data in [[func,funct,'Function'],[derivative,derivativet,'Derivative'],[secant,secantt,'Secant'],[diff,difft,'Inacuracy']]:
+      file.write('\n{} values:\n'.format(data[2]))
+      for value in data[0]:
+        value=truncation(value)
+        data[1].append(value)
+        file.write(value)
+        file.write(', ')
+  else:
+    for data in [[func,funct],[derivative,derivativet],[secant,secantt],[diff,difft]]:
+     for value in data[0]:
+      value=truncation(value)
+      data[1].append(value)
+
   print('The inaccuracy in this example for delta:{} on avg is:{}'.format(DELTA,avgdiff))
   print('Data:\nFunction:{}\nDerivative:{}\nSecant:{}\nInacuracies:{}'.format(funct,derivativet,secantt,difft))
-
-main(DELTA,LENGTH)
+  
+main(0.1,[-10,10],1)
