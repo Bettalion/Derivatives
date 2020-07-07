@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
-# Variable visualisation of derivative
-
+# Variable visualisation of derivatives
 # # Things that can be changed:
 # The span of x START->END ([ELENGTH,SLENGTH])
 # The difference in x when doing
@@ -30,21 +29,29 @@ def truncation(value,SigFig=4):
 def main(DELTA,LENGTH,ShowTheData=1):
  SLENGTH,ELENGTH=LENGTH 
  xaxis=[]
+ xsaxis=[]
  func=[]
  derivative=[]
  secant=[]
 
  for x in range(SLENGTH,ELENGTH):
+  fx=function(x)
+  dx=2*x-1
+  
+  xaxis.append(x)
+  func.append(fx)
+  derivative.append(dx)
   try:
-    fx=function(x)
-    dx=2*x-1
     rise=function(x+DELTA)-function(x)
     run=DELTA
-    sx=rise/run
-    xaxis.append(x)
-    func.append(fx)
-    derivative.append(dx)
-    secant.append(sx)
+    sx1=rise/run
+    rise=function(x-DELTA)-function(x)
+    run=x
+    sx2=rise/run
+    xsaxis.append(x+DELTA)
+    secant.append(sx1)
+    # xsaxis.append(x-DELTA)
+    # secant.append(sx2)
   except:
     pass
 
@@ -55,9 +62,9 @@ def main(DELTA,LENGTH,ShowTheData=1):
   sum+=inaccuracy
   diff.append(inaccuracy)
 
- plt.plot(xaxis,func,)
+ plt.plot(xaxis,func)
  plt.plot(xaxis,derivative)
- plt.plot(xaxis,secant)
+ plt.plot(xsaxis,secant)
 
  plt.show()
  if ShowTheData>=1:
@@ -68,7 +75,7 @@ def main(DELTA,LENGTH,ShowTheData=1):
   derivativet=[]
   secantt=[]
   difft=[]
-
+  
   if ShowTheData>1:
     try:
       file=open('DerivativeData.txt','a')
@@ -77,6 +84,7 @@ def main(DELTA,LENGTH,ShowTheData=1):
     file.write('\n\n\nData:\nFor Delta:{} and Span of x:{}'.format(DELTA,LENGTH))
     for data in [[func,funct,'Function'],[derivative,derivativet,'Derivative'],[secant,secantt,'Secant'],[diff,difft,'Inacuracy']]:
       file.write('\n{} values:\n'.format(data[2]))
+      # print(data[2],len(data[0]))
       for value in data[0]:
         value=truncation(value)
         data[1].append(value)
